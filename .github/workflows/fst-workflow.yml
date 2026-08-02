@@ -11,7 +11,7 @@ jobs:
               run: | 
                echo "Hello my first workflow"
                ls -ltra
-               cat Readme.md
+               cat README.md
             
             
               #- name: list files
