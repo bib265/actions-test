@@ -7,10 +7,15 @@ jobs:
             - name: checkout repo
               uses: actions/checkout@v7
 
-            - name: welcome message
-              run: echo "Hello my first workflow"
-            - name: list files
-              run: ls
-            - name: read file
-              run: cat README.md
+            - name: welcome message with list files and read
+              run: | 
+               echo "Hello my first workflow"
+               ls -ltra
+               cat Readme.md
+            
+            
+              #- name: list files
+             # run: ls
+            #- name: read file
+             # run: cat README.md
         
