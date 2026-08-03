@@ -2,19 +2,52 @@ name: Generate ascii artwork
 on: push
 
 jobs:
-    ascii_job:
-        runs-on: ubuntu-latest
+  build_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v7
 
-        steps:
-            - name: checkout repo
-              uses: actions/checkout@v7
-            
-            - name: check files
-              run: ls -ltra
+      - name: check files
+        run: ls -ltra
 
-            - name: Executing shell script for ascii art
-              run: |
-                  chmod +x ascii-script.sh
-                  ./ascii-script.sh
-            
-            
+      - name: Build artifact
+        run: |
+          sudo apt-get install cowsay -y
+          cowsay -f dragon "Im a dragon mate you want some roasted meat?" >> dragon.txt
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: dragon-file
+          path: dragon.txt
+    
+  test_job:
+    needs: build_job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v8
+        with: 
+          name: dragon-file
+      
+      - name: Test file exist
+        run: grep -i "dragon" dragon.txt
+
+
+  deploy_job:
+    needs: test_job
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v8
+        with: 
+          name: dragon-file
+     
+      - name: Deploy file
+        run: | 
+          echo "Deploying..."
+          cat dragon.txt
+
