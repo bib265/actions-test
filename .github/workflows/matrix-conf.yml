@@ -12,7 +12,7 @@ jobs:
 
                 exclude:
                   - images: alpine
-                    os: window-latest
+                    os: windows-latest
 
                 include:
                   - images: amd64/alpine
